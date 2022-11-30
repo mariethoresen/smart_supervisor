@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/3f79b26735.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+</head>
+
+<body>
+    <div id="preload" class="preload">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wrapper">
+                    <div id="login" class="login">
+                        <div class="form">
+                            <h2>Login</h2>
+                            <form>
+                                <div class="form-group">
+                                    <label for="Email">Email address</label>
+                                    <input type="email" class="form-control" id="Email" aria-describedby="emailHelp"
+                                        placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">Password</label>
+                                    <input type="password" class="form-control" id="Password" placeholder="Password">
+                                </div>
+                                <button class="btn" onclick="login(); return false;">Login</button>
+                            </form>
+                            <br>
+                            <p>Don't have an account? Sign in <a href="#" onclick="shift()">here</a></p>
+                        </div>
+                    </div>
+                    <div id="signUp" class="signUp">
+                        <div class="form">
+                            <h2>Sign Up</h2>
+                            <form>
+                                <div class="form-group">
+                                    <label for="Email">Email address</label>
+                                    <input type="email" class="form-control" id="signUpEmail"
+                                        aria-describedby="emailHelp" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">Password</label>
+                                    <input type="password" class="form-control" id="signUpPassword"
+                                        placeholder="Password">
+                                </div>
+                                <button class="btn" onclick="signUp(); return false;">Sign up</button>
+                            </form>
+                            <br>
+                            <a href="#" onclick="goBack()">Go back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="program">
+        <div class="container">
+            <div class="row title">
+                <div class="col-md-12">
+                    <h1 class="title">The Smart Supervisor</h1>
+                </div>
+            </div>
+            <div class="row mainSection">
+                <div class="col-md-1" style="padding: 0px; max-width: 50px;">
+                    <div class="sideSection">
+                        <div id="sidenav" class="sidenav">
+                            <div class="nav flex-column nav-tabs iconNav" id="mainTabs" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                    aria-controls="home" aria-selected="true"><i class="fas fa-home"></i>
+                                </a>
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                                    aria-controls="profile" aria-selected="false"><i class="fas fa-user"></i>
+                                </a>
+                                <a class="nav-link" id="signout-tab" data-toggle="tab" onclick="signOut()" href="#"
+                                    aria-controls="signout" aria-selected="false"><i class="fas fa-sign-out-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-11 mainNav">
+                    <div class="tab-content" id="tabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="col-md-12" style="padding: 0px">
+                                <ul class="nav navtop" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link active" id="pills-mySmartHome-tab" data-toggle="pill"
+                                            href="#mySmartHome" role="tab" aria-controls="pills-mySmaryHome"
+                                            aria-selected="true">My Smart Home</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="pills-myDevices-tab" data-toggle="pill"
+                                            href="#myDevices" role="tab" aria-controls="pills-myDevices"
+                                            aria-selected="false">My devices</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" id="pills-alerts-tab" data-toggle="pill" href="#alerts"
+                                            role="tab" aria-controls="pills-alerts" aria-selected="false">Alerts</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mainWindow" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="mySmartHome" role="tabpanel"
+                                        aria-labelledby="pills-mySmartHome-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h2>My Smart Home</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2" style="padding: 0px;">
+                                                <div class="box devon">
+                                                    <h3>User logged in</h3>
+                                                    <img src="images/profile.png">
+                                                </div>
+                                                <div class="box devon">
+                                                    <h3>Devices online</h3>
+                                                    <p id="onlineCount"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10" style="padding: 0px;">
+                                                <div class="box trafSum">
+                                                    <h3>Traffic summary</h3>
+                                                    <canvas id="myChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="myDevices" role="tabpanel"
+                                        aria-labelledby="pills-myDevices-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h2>My devices</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 sidebar">
+                                                <div class="box" style="margin: 5px 10px 10px 10px;">
+                                                <h3>Devices</h3>
+                                                <div class="nav navright flex-column" id="v-pills-tab"
+                                                    role="tablist" aria-orientation="vertical">
+                                                    <a class="nav-link add" data-toggle="pill" href="#addDevice"
+                                                        role="tab" aria-controls="addDevice" aria-selected="false">
+                                                        <i class="fas fa-plus"></i> Add device
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-md-9 Dcontent" style="padding: 0px">
+                                                <div class="tab-content" id="v-pills-tabContent">
+                                                    <div class="tab-pane fade show active" id="addDevice"
+                                                        role="tabpanel" aria-labelledby="addDevice-tab">
+
+                                                        <div class="row">
+                                                            <div class="col-md-12 box" style="margin: 5px; padding: 0px;">
+                                                                <h3>Add a device</h3>
+                                                                <div id="accordion">
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="heading1">
+                                                                            <button class="btn optionBtn"
+                                                                                data-toggle="collapse"
+                                                                                data-target="#collapse1"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="collapse1">
+                                                                                <i class="far fa-lightbulb"></i> Smart
+                                                                                Lights
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div id="collapse1" class="collapse"
+                                                                            aria-labelledby="heading1"
+                                                                            data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                <ul id="light"
+                                                                                    class="list-group list-group-flush">
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="heading2">
+                                                                            <button class="btn optionBtn"
+                                                                                data-toggle="collapse"
+                                                                                data-target="#collapse2"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="collapse2">
+                                                                                <i class="fas fa-volume-up"></i> Smart
+                                                                                Speaker
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div id="collapse2" class="collapse"
+                                                                            aria-labelledby="heading2"
+                                                                            data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                <ul id="speaker"
+                                                                                    class="list-group list-group-flush">
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="heading3">
+                                                                            <button class="btn optionBtn"
+                                                                                data-toggle="collapse"
+                                                                                data-target="#collapse3"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="collapse3">
+                                                                                <i class="fas fa-video"></i> Smart
+                                                                                Camera
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div id="collapse3" class="collapse"
+                                                                            aria-labelledby="heading3"
+                                                                            data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                <ul id="camera"
+                                                                                    class="list-group list-group-flush">
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="heading4">
+                                                                            <button class="btn optionBtn"
+                                                                                data-toggle="collapse"
+                                                                                data-target="#collapse4"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="collapse4">
+                                                                                <i class="fas fa-wind"></i> Smart
+                                                                                Thermostat
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div id="collapse4" class="collapse"
+                                                                            aria-labelledby="heading4"
+                                                                            data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                <ul id="thermostat"
+                                                                                    class="list-group list-group-flush">
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="card">
+                                                                        <div class="card-header" id="heading5">
+                                                                            <button class="btn optionBtn"
+                                                                                data-toggle="collapse"
+                                                                                data-target="#collapse5"
+                                                                                aria-expanded="true"
+                                                                                aria-controls="collapse5">
+                                                                                <i class="fas fa-key"></i>Smart Lock
+                                                                            </button>
+                                                                        </div>
+
+                                                                        <div id="collapse5" class="collapse"
+                                                                            aria-labelledby="heading5"
+                                                                            data-parent="#accordion">
+                                                                            <div class="card-body">
+                                                                                <ul id="lock"
+                                                                                    class="list-group list-group-flush">
+
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="deviceTab" role="tabpanel"
+                                                        aria-labelledby="deviceTab">
+                                                        <div class="box">
+                                                            <h2></h2>
+                                                            <canvas id="deviceChart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="alerts" role="tabpanel"
+                                        aria-labelledby="pills-alerts-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h2>Alerts</h2>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="box">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Message</th>
+                                                        <th scope="col"><i class="fas fa-arrow-up"></i></th>
+                                                        <th scope="col"><i class="fas fa-arrow-down"></i></th>
+                                                        <th scope="col">Priority</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr>
+                                                        <th scope="row">1</th>
+                                                        <td>Spotify connected to Google Home</td>
+                                                        <td>70 KB</td>
+                                                        <td>60 KB</td>
+                                                        <td><i class="fas fa-exclamation-triangle"></i></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">2</th>
+                                                        <td>Netgear Arlo Pro 2 connected to unknown source</td>
+                                                        <td>500 MB</td>
+                                                        <td>70 KB</td>
+                                                        <td><i class="fas fa-times-circle"></i></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">3</th>
+                                                        <td> Nest x Yale Smart Lock unlocked at 2:30 am</td>
+                                                        <td>200 KB</td>
+                                                        <td>0 KB</td>
+                                                        <td><i class="fas fa-exclamation-triangle"></i></td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="profileSection">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2>Name's Profile</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="box" style="margin-bottom: 10px;">
+                                            <h3>Profile picture</h3>
+                                            <img src="images/profile.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="box userInfo">
+                                            <h3>User information</h3>
+                                            <p id="userDisplayName"><b>User name: </b>John Doe</p>
+                                            <p id="userDisplayEmail"><b>Email: </b>John@doe.com</p>
+                                            <p id="UserSince"><b>User since: </b>24. April 2020</p>
+                                            <p><b>Last Loggend In:</b> 03. June 2020</p><br>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row bottom">
+                <div class="col-12">
+                    <h3>Copy right © The Smart System</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+    https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-database.js"></script>
+    
+    <!-- Chart CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/mychart.js"></script>
+</body>
+
+</html>
